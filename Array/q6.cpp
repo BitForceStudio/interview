@@ -71,7 +71,7 @@ public:
     }
 };
 
-// change mind... from dest to src
+// Solution from the web. it very clever. 
 class Solution {
 public:
     string convert(string s, int numRows) {
