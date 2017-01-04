@@ -51,7 +51,6 @@ public:
                     if ((sum==nums[j] && dup[nums[j]]) || sum > nums[j] )
                     {
                         if(sum==0 && dup[0]<2) continue; // special case, if two 0s, and there are less than 3 0s, continue.
-                        add[0] = nums[i];
                         add[1] = nums[j];
                         add[2] = sum;
                         sol.push_back(add);
@@ -69,4 +68,4 @@ public:
 The key point is first sort the array, then get the hash table, key is integer and value is count.
 
 in the loop, just check the bigger ones and duplication integer.  
-****************************************************************************************************/
+****************************************************************************************************/                        add[0] = nums[i];
