@@ -1,31 +1,30 @@
 /****************************************************************************************************
-                                      39. Combination Sum       
+                                       40. Combination Sum II     
 -----------------------------------------------------------------------------------------------------
-Given a set of candidate numbers (C) (without duplicates) and a target number (T), find all unique 
-combinations in C where the candidate numbers sums to T.
+Given a collection of candidate numbers (C) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
 
-The same repeated number may be chosen from C unlimited number of times.
+Each number in C may only be used once in the combination.
 
 Note:
 All numbers (including target) will be positive integers.
 The solution set must not contain duplicate combinations.
-For example, given candidate set [2, 3, 6, 7] and target 7, 
+For example, given candidate set [10, 1, 2, 7, 6, 1, 5] and target 8, 
 A solution set is: 
 [
-  [7],
-  [2, 2, 3]
+  [1, 7],
+  [1, 2, 5],
+  [2, 6],
+  [1, 1, 6]
 ]
 ****************************************************************************************************/
 
 class Solution {
 public:
-    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        // backtrack, from big to small, 
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
         vector<vector<int> > rst;
+        if (candidates.size()==0) return rst;
+        
         sort(candidates.begin(),candidates.end());
-        
-        if (target<candidates[0]) return rst;
-        
         int len = candidates.size()-1;
         vector<int> bt;
         find(candidates,rst,bt,len,target);
@@ -48,17 +47,15 @@ public:
             if (ctg<0) continue;
             if (ic+1<=bg && c[ic]==c[ic+1]) continue;   // ***
             bt.push_back(ic);
-            find(c,rst,bt,ic,ctg);
+            find(c,rst,bt,ic-1,ctg);
             bt.pop_back();
         }
-
         return;
     }
 };
 
 /****************************************************************************************************
                                              Note
-it really difficult for me now. I got the thought, but implement the thought to real working code is
-really different thing...
-practice some more backtracing problem. 
+*** be careful, there may be duplacation, so, need to find it out. 
+In solution search by index loop. cannot include the duplication. 
 ****************************************************************************************************/
