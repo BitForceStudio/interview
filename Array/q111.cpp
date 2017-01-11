@@ -29,4 +29,5 @@ public:
 /****************************************************************************************************
                                              Note
 if one side is empty, it has to return the un-empty one. 
+should use level travel. first node has two null children, return it's level.  
 ****************************************************************************************************/
