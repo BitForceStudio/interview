@@ -61,31 +61,6 @@ namespace std
 	        return rst;
 	    }
 	};
-
-	class OthersSolution {
-	public:
-	    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-	        int len=nums.size();
-	        vector<vector<int> > rst(1,vector<int>());
-	        if (len==0) return rst;
-	        if (len==1) {rst.push_back(nums); return rst;}
-	        
-	        sort(nums.begin(),nums.end());
-	        
-	        int currsize=0;
-	        for(int i=0;i<len;i++)
-	        {
-	            int ind = i>0 && nums[i-1]==nums[i] ? currsize:0;
-	            currsize=rst.size();
-	            for(int j=ind;j<currsize;j++)
-	            {
-	                rst.push_back(rst[j]);
-	                rst.back().push_back(nums[i]);
-	            }
-	        }
-	        return rst;
-	    }
-};
 }
 
 /****************************************************************************************************
