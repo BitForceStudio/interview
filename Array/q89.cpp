@@ -40,9 +40,8 @@ namespace std
 	            for(int j=0;j<n;j++)
 	            {
 	                if (i<nbit) break;
-	                int npow=2*nbit;
-	                curr+=((i-nbit)/npow)%2==0?nbit:0;
-	                nbit=npow;
+	                curr+=((i-nbit)/nbit/2)%2==0?nbit:0;
+	                nbit<<1;
 	            }
 	            rst.push_back(curr);
 	        }
