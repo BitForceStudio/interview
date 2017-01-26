@@ -45,6 +45,7 @@ namespace std
 	            if (st+ic<=len)                      // ***
 	            {
 	                string stmp = s.substr(st,ic);
+	                if (stmp[0]=='0' && ic>1) break; // ***
 	                int itmp = stoi(stmp);
 	                if (itmp>=0 && itmp<=255)
 	                {
@@ -67,4 +68,5 @@ namespace std
 /****************************************************************************************************
                                              Note
 *** here has to be less or equal to. think about why.
+*** if it is zero, ic should just be 1. 
 ****************************************************************************************************/
