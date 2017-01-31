@@ -31,9 +31,6 @@
     <ClCompile Include="..\..\q2.cpp">
       <Filter>Source Files\Linkedlist</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\q4.cpp">
-      <Filter>Source Files\Array</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\q5.cpp">
       <Filter>Source Files\Array</Filter>
     </ClCompile>

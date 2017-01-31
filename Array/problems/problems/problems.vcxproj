@@ -117,7 +117,6 @@
     <ClCompile Include="..\..\q36.cpp" />
     <ClCompile Include="..\..\q38.cpp" />
     <ClCompile Include="..\..\q39.cpp" />
-    <ClCompile Include="..\..\q4.cpp" />
     <ClCompile Include="..\..\q40.cpp" />
     <ClCompile Include="..\..\q41.cpp" />
     <ClCompile Include="..\..\q43.cpp" />
