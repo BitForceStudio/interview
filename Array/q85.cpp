@@ -59,11 +59,64 @@ namespace std
 	    }
 	};
 
+	// stack solution. remember this method
+	class Solution {
+	public:
+	    int maximalRectangle(vector<vector<char>>& matrix) {
+	        int rlen=matrix.size();
+	        if (rlen==0) return 0;
+	        int clen=matrix[0].size();
+	        if (clen==0) return 0;
+	        int rst=0;
+	        
+	        vector<int> height(clen+1,0);
+	        for(int i=0;i<rlen;i++)
+	        {
+	            stack<int> ind;
+	            // get hight vector
+	            int j=0;
+	            for(;j<clen;j++)
+	            {
+	                if (matrix[i][j]=='1') height[j]++;
+	                else height[j]=0;
+	            }
+	            
+	            j=0;
+	            while(j<=clen)
+	            {
+	                if (ind.empty() || height[ind.top()]<height[j])
+	                {
+	                    ind.push(j);
+	                    j++;
+	                }
+	                else
+	                {
+	                    int left = ind.top();
+	                    ind.pop();
+	                    if (!ind.empty())
+	                    {
+	                        rst = max((j-ind.top()-1)*height[left],rst); //*****
+	                    }
+	                    else
+	                    {
+	                        rst = max(j*height[left],rst);
+	                    }
+	                }
+	            }
+	        }
+	        
+	        return rst;
+	    }
+	};
+
 }
 
 /****************************************************************************************************
                                              Note
 it is the dp problem
+convert it into maximum ractangular area in histogram (clever...)
+*****: current stack top, ind.top(), is the first one that less than the height[j], so it should -1.    
+
 area = max(left) * min(right) * curr height. all these three para are inherietied from the previous 
 once. So it is the global min and max on current row and colume. 
 ****************************************************************************************************/

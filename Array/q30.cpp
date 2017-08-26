@@ -69,6 +69,59 @@ public:
         
         return rst;
     }
+
+    // KMP kind of moving window solution.
+    class Solution {
+    public:
+        vector<int> findSubstring(string s, vector<string>& words) {
+            vector<int> rst;
+            int lens = s.size();
+            if (lens==0) return rst;
+            int lenws = words.size();
+            if (lenws==0) return rst;
+            int lenw = words[0].size();
+            if(lenw==0 || lenws*lenw>lens) return rst;
+            
+            unordered_map<string,int> dict;
+            for(int i=0;i<lenws;i++) dict[words[i]]++;
+            
+            for(int i=0;i<lenw && i<(lens-lenws*lenw+1);i++)
+            {
+                int counter=0;
+                queue<string> window;
+                unordered_map<string,int> tdict;
+                for(int j=i;j<lens-lenw+1;j+=lenw)
+                {
+                    string cword = s.substr(j,lenw);
+                    if (dict.find(cword)==dict.end())
+                    {
+                        if (!window.empty()) window=queue<string>();
+                        counter=0;
+                        tdict=unordered_map<string,int>();
+                        continue;
+                    }
+                    
+                    tdict[cword]++;
+                    window.push(cword);
+                    counter++;
+                    if (tdict[cword]>dict[cword])
+                    {
+                        while(window.front()!=cword) 
+                        {
+                            tdict[window.front()]--;
+                            window.pop();
+                            counter--;
+                        }
+                        window.pop();
+                        tdict[cword]--;
+                        counter--;
+                    }
+                    if (counter==lenws) rst.push_back(j-(lenws-1)*lenw);
+                }
+            }
+            return rst;
+        }
+    };
 };
 
 /****************************************************************************************************
