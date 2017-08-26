@@ -34,7 +34,7 @@ namespace std
 	            if (count[s2[i]-97]>0)
 	            {
 	                int clen=0;
-	                vector<int> currc(26,0);
+	                vector<int> currc(26,0); //***
 	                int start = i;
 	                while(i<s2.size() && count[s2[i]-97]>0)
 	                {
@@ -67,4 +67,5 @@ namespace std
 1: KMP princple
 2: no need to store the index, keep the start and check the above counter would be good
 3: check size. 
+4: vector resize problem? ***
 ****************************************************************************************************/

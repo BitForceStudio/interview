@@ -61,6 +61,21 @@ namespace std
 	            }
 	        }
 	    }
+
+	    void check(int i,int j,int lenr, int lenc,vector<vector<int>>& board)
+	    {
+	        int sum=((i-1)>=0?(board[i-1][j]%10):0)                   // top
+	               +(((i-1)>=0 && (j-1)>=0)?(board[i-1][j-1]%10):0)   // top left
+	               +(((i-1)>=0 && (j+1)<lenc)?(board[i-1][j+1]%10):0) // top right
+	               +((j-1)>=0?(board[i][j-1]%10):0)                   // left
+	               +((j+1)<lenc?board[i][j+1]:0)                      // right
+	               +(((i+1)<lenr && (j-1)>=0)?board[i+1][j-1]:0)      // bottom left
+	               +((i+1)<lenr?board[i+1][j]:0)                      // bottom
+	               +(((i+1)<lenr && (j+1)<lenc)?board[i+1][j+1]:0);   // bottom right
+	        
+	        if (sum==2) board[i][j]*=11;
+	        else if (sum==3) board[i][j]+=10;
+	    }
 	};
 
 }

@@ -37,6 +37,25 @@ namespace std
 	    }
 	};
 
+	class Solution {
+	public:
+	    int findMin(vector<int>& nums) {
+	        if (nums.size()==0) return 0;
+	        if (nums.size()==1) return nums[0];
+	        
+	        int s=0,t=nums.size()-1;
+	        int mid=0;
+	        while(s<t)
+	        {
+	            mid = (s+t)/2;
+	            if (nums[s]<nums[t]) break;
+	            else if (nums[mid]>=nums[s]) s=mid+1;
+	            else t=mid;
+	        }
+	        return nums[s];
+	    }
+	};
+
 }
 
 /****************************************************************************************************
