@@ -74,6 +74,31 @@ public:
 
         return val-unique[start]>unique[end]-val?unique[end]:unique[start];
     }
+
+
+    public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        int len = nums.size();
+        sort(nums.begin(),nums.end());
+
+        int rst=nums[0]+nums[1]+nums[2];
+        for(int i=0;i<len-2;i++)
+        {
+            int s=i+1,t=len-1;
+            long minsum=nums[i]+nums[s]+nums[t];
+            while(s<t)
+            {
+                long tmp = nums[t]+nums[s]+nums[i];
+                minsum=abs(minsum-target)>abs(tmp-target)?tmp:minsum;
+                if (tmp-target>0) t--;
+                else if(tmp-target<0) s++;
+                else return target;
+            }
+            rst=abs(rst-target)>abs(minsum-target)?minsum:rst;
+            while (i<len-2 && nums[i]==nums[i+1]) i++;
+        }
+        return rst;
+    }
 };
 
 /****************************************************************************************************

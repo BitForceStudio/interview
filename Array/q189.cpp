@@ -18,7 +18,7 @@ Could you do it in-place with O(1) extra space?
 namespace std
 {
 
-	class Solution {
+	class Solution1 {
 	public:
 	    void rotate(vector<int>& nums, int k) {
 	        // rotate first n-k element, rotate last k element and then rotate the whole string
@@ -45,10 +45,41 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    void rotate(vector<int>& nums, int k) {
+	        int len=nums.size();
+	        if (len<=1) return;
+	        if (k==0) return;
+	        
+	        int start = 0;
+	        int curr = 0;
+	        int prev = nums[0];
+	        
+	        int i=0;
+	        while(i<len)
+	        {
+	            do
+	            {
+	                int next=(curr+k)%len;
+	                int tmp = nums[next];
+	                nums[next]= prev;
+	                curr=next;
+	                prev = tmp;
+	                i++;
+	            }while(curr!=start);
+
+	            start++;
+	            curr=start;
+	            prev = nums[start];
+	        }
+	    }
+	};
+
 }
 
 /****************************************************************************************************
                                              Note
-nothing special remember this kind of question. rotate two times. 
-
+solution 1:  need to update k=k%len. nothing special remember this kind of question. rotate two times. 
+solution 2: need to check the loop. If there was a loop, then break the loop, update the start point.
 ****************************************************************************************************/

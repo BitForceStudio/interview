@@ -46,9 +46,30 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    bool isIsomorphic(string s, string t) {
+	        int len=s.size();
+	        if (len==0) return true;
+	        
+	        map<char,char> ms;
+	        map<char,char> mt;
+	        for(int i=0;i<len;i++)
+	        {
+	            if (ms.find(s[i])!=ms.end() && ms[s[i]]!=t[i]) return false;
+	            if (mt.find(t[i])!=mt.end() && mt[t[i]]!=s[i]) return false;
+	            ms[s[i]]=t[i];
+	            mt[t[i]]=s[i];
+	        }
+	        return true;
+	    }
+	};
+
 }
 
 /****************************************************************************************************
                                              Note
 need to understand this problem. it want to a mapping that map to the same one. 
+
+map is not effiency.
 ****************************************************************************************************/

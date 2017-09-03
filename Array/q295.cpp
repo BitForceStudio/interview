@@ -95,6 +95,54 @@ namespace std
 	    int nnode;
 	};
 
+
+    // update solution
+	class MedianFinder {
+	private:
+	    vector<int> arr;
+	public:
+	    /** initialize your data structure here. */
+	    MedianFinder() {
+	        arr.resize(0);
+	    }
+	    
+	    void addNum(int num) {
+	        if (arr.size()==0) arr.push_back(num);
+	        else if (arr.size()==1)
+	        {
+	            if(num>arr[0]) arr.push_back(num);
+	            else arr.insert(arr.begin(),num);
+	        }
+	        else
+	        {
+	            int st=0,ed=arr.size()-1;
+	            int mid=0;
+	            while(st<ed)
+	            {
+	                mid=(st+ed)/2;
+	                if(arr[mid]<num) st=mid+1;
+	                else if (arr[mid]>num) ed=mid;
+	                else 
+	                {
+	                    st=mid;  //*
+	                    break;
+	                }
+	            }
+	            if (arr[st]<num) //**
+	                arr.insert(arr.begin()+st+1,num);
+	            else
+	                arr.insert(arr.begin()+st,num);
+	        }
+	    }
+	    
+	    double findMedian() {
+	        int len=arr.size();
+	        if (len<1) return 0;
+	        if (len%2==1) return arr[len/2];
+	        else return (double(arr[len/2-1])+double(arr[len/2]))/2;
+	    }
+	};
+
 	/**
 	 * Your MedianFinder object will be instantiated and called as such:
 	 * MedianFinder obj = new MedianFinder();
@@ -106,6 +154,11 @@ namespace std
 
 /****************************************************************************************************
                                              Note
+**** update my solution
+keep a sorted array. using vector insert. 
+* & ** is the place that for insert sort need to keep eye on.
+
+**** heap
 Better and passed solution: 
 I keep two heaps (or priority queues):
 
