@@ -28,7 +28,7 @@ There are a total of 4 courses to take. To take course 3 you should have finishe
 namespace std
 {
 
-	class Solution {
+	class Solution1 {
 	public:
 	    vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
 	        vector<int> rst;
@@ -95,9 +95,64 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
+	        vector<int> rst;
+	        if (numCourses<=0) return rst;
+	        if (prerequisites.size()==0)
+	        {
+	            for(int i=0;i<numCourses;i++) rst.push_back(i);
+	            return rst;
+	        }
+	        
+	        set<int> zeroin;
+	        for(int i=0;i<numCourses;i++) zeroin.insert(i);
+	        map<int,set<int> > graph;
+	        vector<int> counter(numCourses,0);
+	        
+	        for(int i=0;i<prerequisites.size();i++)
+	        {
+	            graph[prerequisites[i].second].insert(prerequisites[i].first);
+	            zeroin.erase(prerequisites[i].first);
+	            counter[prerequisites[i].first]++;
+	        }
+	        
+	        if (zeroin.size()==0) return rst;
+	        
+	        queue<int> q;
+	        for(set<int>::iterator it=zeroin.begin();it!=zeroin.end();++it)
+	        {
+	            q.push(*it);
+	        }
+	        
+	        while(!q.empty())
+	        {
+	            int curr = q.front();
+	            q.pop();
+	            rst.push_back(curr);
+	            set<int> gc= graph[curr];
+	            for(set<int>::iterator it=gc.begin();it!=gc.end();++it)
+	            {
+	                counter[*it]--;
+	                if (counter[*it]==0) q.push(*it);
+	            }
+	        }
+	        
+	        if (rst.size()!=numCourses)
+	        {
+	            rst.resize(0);
+	            return rst;
+	        }
+	        
+	        return rst;
+	    }
+	};
+
 }
 
 /****************************************************************************************************
                                              Note
 use a require map. but it seems not good enough. Read what's other do. 
+Solution2: topo sort
 ****************************************************************************************************/

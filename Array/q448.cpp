@@ -31,7 +31,7 @@ namespace std
 	        
 	        for(int i=0;i<len;i++)
 	        {
-	            nums[(nums[i]-1)%len]+=len;
+	            nums[(nums[i]-1)%len]+=len; // pointed place, added length. if not pointed, then it stay less than len. 
 	        }
 	        
 	        for(int i=0;i<len;i++)
@@ -42,9 +42,34 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    vector<int> findDisappearedNumbers(vector<int>& nums) {
+	        int len=nums.size();
+	        vector<int> rst;
+	        if (len==0) return rst;
+	        int i=0;
+	        while(i<len)
+	        {
+	            if(nums[nums[i]-1]!=nums[i])
+	            {
+	                swap(nums[nums[i]-1],nums[i]);
+	            }
+	            else i++;
+	        }
+	        for(i=0;i<len;i++)
+	        {
+	            if(nums[i]!=i+1) rst.push_back(i+1);
+	        }
+	        return rst;
+	    }
+	};
+
 }
 
 /****************************************************************************************************
                                              Note
 clever...
+
+
 ****************************************************************************************************/
