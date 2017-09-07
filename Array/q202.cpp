@@ -50,6 +50,30 @@ namespace std
 	    }
 	};
 
+
+	class Solution {
+	public:
+	    bool isHappy(int n) {
+	        if (n<=1) return true;
+	        
+	        unordered_set<int> lp;
+	        int rst=0;
+	        while(n!=1 && lp.find(n)==lp.end())
+	        {
+	            lp.insert(n);
+	            rst=0;
+	            while(n!=0)
+	            {
+	                int dig = n%10;
+	                n/=10;
+	                rst+=dig*dig;
+	            }
+	            n=rst;
+	        }
+	        
+	        return n==1;
+	    }
+	};
 }
 
 /****************************************************************************************************

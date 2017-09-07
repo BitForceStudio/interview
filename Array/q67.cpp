@@ -120,9 +120,84 @@ public:
         if (carry==1) rst='1'+rst;
         return rst;
     } 
+
+
+    class Solution2 {
+    public:
+        string addBinary(string a, string b) {
+            int lena=a.size();
+            int lenb=b.size();
+            
+            if (lena==0) return b;
+            if (lenb==0) return a;
+            
+            lena--;
+            lenb--;
+            char carry='0';
+            string rst="";
+            while(lena>=0 && lenb>=0)
+            {
+                if (a[lena]=='1' && b[lenb]=='1')
+                {
+                    rst=carry+rst;
+                    carry='1';
+                }
+                else if (a[lena]=='1' || b[lenb]=='1')
+                {
+                    if (carry=='1') rst='0'+rst;
+                    else rst='1'+rst;
+                }
+                else
+                {
+                    rst=carry+rst;
+                    carry='0';
+                }
+                lena--;
+                lenb--;
+            }
+            
+            if (lena>=0)
+            {
+                while(lena>=0)
+                {
+                    if (a[lena]=='1')
+                    {
+                        if (carry=='1') rst='0'+rst;
+                        else rst='1'+rst;
+                    }
+                    else
+                    {
+                        rst=carry+rst;
+                        carry='0';
+                    }
+                    lena--;
+                }
+            }
+            else
+            {
+                while(lenb>=0)
+                {
+                    if (b[lenb]=='1')
+                    {
+                        if (carry=='1') rst='0'+rst;
+                        else rst='1'+rst;
+                    }
+                    else
+                    {
+                        rst=carry+rst;
+                        carry='0';
+                    }
+                    lenb--;
+                }
+            }
+            if (carry=='1') rst=carry+rst;
+            return rst;
+        }
+    };
 };
 
 /****************************************************************************************************
                                              Note
 Be careful about adding one string. and considering the all possibility of the results.
+added another solution
 ****************************************************************************************************/

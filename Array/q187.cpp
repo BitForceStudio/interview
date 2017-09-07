@@ -37,6 +37,39 @@ namespace std
 	        return rst;
 	    }
 	};
+
+	class Solution2 {
+	public:
+	    vector<string> findRepeatedDnaSequences(string s) {
+	        int len=s.size();
+	        vector<string> rst;
+	        if (len<10) return rst;
+	        unordered_map<char,int> tran;
+	        tran['A']=1;
+	        tran['C']=2;
+	        tran['G']=3;
+	        tran['T']=4;
+	        
+	        unordered_map<long,int> store;
+	        int i=0;
+	        long curr=0;
+	        while(i<=9)
+	        {
+	            curr=curr*10+tran[s[i++]];
+	        }
+	        store[curr]++;;
+	        while(i<len)
+	        {
+	            curr-=long(tran[s[i-10]])*1e9;
+	            curr=curr*10+tran[s[i]];
+	            if (store.find(curr)!=store.end() && store[curr]==1)
+	                rst.push_back(s.substr(i-9,10));
+	            store[curr]++;
+	            i++;
+	        }
+	        return rst;
+	    }
+	};
 }
 
 /****************************************************************************************************
