@@ -85,6 +85,43 @@ namespace std
 	    
 	};
 
+	class Solution {
+	public:
+	    vector<vector<string>> solveNQueens(int n) {
+	        vector<vector<string> > rst;
+	        if (n==0) return rst;
+	        
+	        vector<bool> vert(n,false);
+	        vector<bool> fdiag(2*n-1,false);
+	        vector<bool> bdiag(2*n-1,false);
+	        vector<string> curr(n,string(n,'.'));
+	        solver(0,n,vert,fdiag,bdiag,curr,rst);
+	        
+	        return rst;
+	    }
+	    
+	    void solver(int i, int n, vector<bool>& vert, vector<bool>& fdiag, vector<bool>& bdiag, vector<string>& curr, vector<vector<string> >& rst)
+	    {
+	        if (i==n)
+	        {
+	            rst.push_back(curr);
+	            return;
+	        }
+	        
+	        for(int j=0;j<n;j++)
+	        {
+	            if (!vert[j] && !fdiag[n-1-i+j] && !bdiag[i+j])
+	            {
+	                vert[j]=fdiag[n-1-i+j]=bdiag[i+j]=true;
+	                curr[i][j]='Q';
+	                solver(i+1,n,vert,fdiag,bdiag,curr,rst);
+	                curr[i][j]='.';
+	                vert[j]=fdiag[n-1-i+j]=bdiag[i+j]=false;
+	            }
+	        }
+	    }
+	};
+
 }
 
 /****************************************************************************************************
@@ -129,7 +166,8 @@ private:
             }
     }
 };
-But we actually do not need to use three arrays, we just need one. Now, when reach [row, col], the subscript of column is col, the subscript of 45° diagonal is n + row + col and the subscript of 135° diagonal is n + 2 * n - 1 + n - 1 + col - row.
+//But we actually do not need to use three arrays, we just need one. Now, when reach [row, col], the subscript of column is col, the subscript of 45° 
+//diagonal is n + row + col and the subscript of 135° diagonal is n + 2 * n - 1 + n - 1 + col - row.
 
 class Solution {
 public:

@@ -39,6 +39,35 @@ namespace std
 	        return rst[len];
 	    }
 	};
+
+	class Solution {
+	public:
+	    int numDecodings(string s) {
+	        int len=s.size();
+	        if (len<=0) return len;
+	        if (s[0]=='0') return 0;
+	        
+	        vector<int> count(len+1,0);
+	        count[0]=1;
+	        count[1]=1;
+	        for(int i=1;i<len;i++)
+	        {
+	            if (s[i]!='0')
+	            {
+	                count[i+1]=count[i];
+	                if ((s[i]-'0'+(s[i-1]-'0')*10)<=26 && s[i-1]!='0')
+	                    count[i+1]+=count[i-1];
+	            }
+	            else if (s[i]=='0' && (s[i-1]=='2' || s[i-1]=='1'))
+	            {
+	                count[i+1]=count[i-1];
+	                count[i]  =count[i-1];
+	            }
+	            else if (s[i]=='0' && (s[i-1]=='0' || s[i-1]>='3')) return 0;
+	        }
+	        return count[len];
+	    }
+	};
 }
 
 /****************************************************************************************************
