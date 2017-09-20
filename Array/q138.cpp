@@ -61,9 +61,53 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    RandomListNode *copyRandomList(RandomListNode *head) {
+	        if (head==NULL) return head;
+	        
+	        RandomListNode* dp = new RandomListNode(0);
+	        
+	        dp->next = head;
+	        
+	        // copy each nodes
+	        while (head!=NULL)
+	        {
+	            RandomListNode* cpy = new RandomListNode(head->label);
+	            cpy->next = head->next;
+	            head->next=cpy;
+	            head = cpy->next;
+	        }
+	        
+	        //copy the random 
+	        head = dp->next;
+	        while(head!=NULL)
+	        {
+	            if (head->random) head->next->random = head->random->next; // ***
+	            head=head->next->next;
+	        }
+	        head = dp->next;
+	        
+	        // break the link
+	        dp->next = head->next;
+	        RandomListNode* cpy = dp->next;
+	        while(head!=NULL && cpy!=NULL)
+	        {
+	            head->next=head->next->next;
+	            head=head->next;
+	            if (cpy->next) cpy->next=cpy->next->next;   // ***
+	            cpy=cpy->next;
+	        }
+	        return dp->next;
+	    }
+	};
+
 }
 
 /****************************************************************************************************
                                              Note
 DO not forget to reset the head.
+
+random could be NULL
+cpy next could be NULL
 ****************************************************************************************************/

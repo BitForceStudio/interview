@@ -54,6 +54,39 @@ namespace std
 	    }
 	};
 
+
+	class Solution {
+	public:
+	    int maxProduct(vector<string>& words) {
+	        int len=words.size();
+	        if (len<2) return 0;
+	        
+	        int rst=0;
+	        vector< int > counter(len,0);
+	        for(int i=0;i<len;i++)
+	        {
+	            for(int iw=0;iw<words[i].size();iw++)
+	            {
+	                counter[i]|=1<<(words[i][iw]-'a');
+	            }
+	        }
+	        
+	        for(int i=0;i<len;i++)
+	        {
+	            for(int j=i+1;j<len;j++)
+	            {
+	                if ((counter[i] & counter[j])==0)
+	                {
+	                    int curr = words[i].size()*words[j].size();
+	                    rst=curr>rst?curr:rst;
+	                }
+	            }
+	        }
+	        
+	        return rst;
+	    }
+	};
+
 }
 
 /****************************************************************************************************

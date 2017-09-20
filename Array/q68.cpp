@@ -112,10 +112,60 @@ namespace std
 	        return rst;
 	    }
 	};
+     
 
+    class Solution2 {
+	public:
+	    vector<string> fullJustify(vector<string>& words, int maxWidth) {
+	        int len=words.size();
+	        vector<string> rst;
+	        
+	        int i=0;
+	        while(i<len)
+	        {
+	            vector<string> curr;
+	            int sum=words[i].size();
+	            curr.push_back(words[i]);
+	            int icurr=i+1;
+	            bool qend =false;
+	            while(icurr<len && sum+1+words[icurr].size()<=maxWidth)
+	            {
+	                sum+=1+words[icurr].size();
+	                curr.push_back(words[icurr]);
+	                icurr++;
+	            }
+	            if (icurr>=len && sum<=maxWidth) qend=true;
+	            i=icurr;
+	            vector<int> spaces(curr.size()-1,1);
+	            int nspace=1;
+	            int leftspace=0;
+	            if (!qend && curr.size()-1>0)
+	            {
+	                int gap=maxWidth-sum;
+	                nspace += gap/(curr.size()-1);  // 1 ****
+	                leftspace = gap - int(gap/(curr.size()-1))*(curr.size()-1);
+	            }
+	            string strcurr="";
+	            for(int j=0;j<curr.size()-1;j++)
+	            {
+	                strcurr+=curr[j];
+	                strcurr+=string(nspace,' ');
+	                if (j<leftspace) strcurr+=' ';
+	            }
+	            strcurr+=curr.back();
+	            strcurr+=string(maxWidth-strcurr.size(),' ');  // 2 ***
+	            rst.push_back(strcurr);
+	        }
+	        return rst;
+	    }
+	};
 }
 
 /****************************************************************************************************
                                              Note
 *** corner cases, if one word and last string
+solution 2:
+
+1: divided by zero
+2: add more spaces if one word.
 ****************************************************************************************************/
