@@ -62,6 +62,32 @@ namespace std
 	 * int param_1 = obj.sumRegion(row1,col1,row2,col2);
 	 */
 
+	class NumMatrix2 {
+	private:
+	    vector<vector<int>> matrixsum;
+	public:
+	    NumMatrix(vector<vector<int>> matrix) {
+	        int lenr = matrix.size();
+	        if (lenr==0) return;
+	        int lenc = matrix[0].size();
+	        if (lenc==0) return;
+	        
+	        matrixsum.resize(lenr+1,vector<int>(lenc+1,0));
+	        
+	        for(int i=1;i<=lenr;i++)
+	        {
+	            for(int j=1;j<=lenc;j++)
+	            {
+	                matrixsum[i][j] = matrixsum[i][j-1]+matrixsum[i-1][j]-matrixsum[i-1][j-1]+matrix[i-1][j-1];
+	            }
+	        }
+	    }
+	    
+	    int sumRegion(int row1, int col1, int row2, int col2) {
+	        return matrixsum[row2+1][col2+1]-matrixsum[row2+1][col1]-matrixsum[row1][col2+1]+matrixsum[row1][col1];
+	    }
+	};
+
 }
 
 /****************************************************************************************************
