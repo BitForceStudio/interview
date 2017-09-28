@@ -61,6 +61,41 @@ namespace std
 	    }
 	};
 
+
+	class Solution2 {
+	public:
+	    int compareVersion(string version1, string version2) {
+	        // remove the heading '0's
+	        int iz=0;
+	        while(version1[iz]=='0') iz++;
+	        version1=version1.substr(iz);
+	        iz=0;
+	        while(version2[iz]=='0') iz++;
+	        version2=version2.substr(iz);
+	        
+	        // find the dot
+	        int dot1 = version1.find('.');
+	        int dot2 = version2.find('.');
+	        
+	        if (dot1==-1) dot1 = version1.size();
+	        if (dot2==-1) dot2 = version2.size();
+	        
+	        if (dot1<dot2) return -1;
+	        if (dot1>dot2) return 1;
+	        for(int i=0;i<dot1;i++)
+	        {
+	            if (version1[i]<version2[i]) return -1;
+	            if (version1[i]>version2[i]) return 1;
+	        }
+
+	        if (dot1==version1.size()) return dot2==version2.size()?0:compareVersion("0",version2.substr(dot2+1));
+	        if (dot2==version2.size()) return dot1==version1.size()?0:compareVersion(version1.substr(dot1+1),"0");
+	        
+	        return compareVersion(version1.substr(dot1+1),version2.substr(dot2+1));
+	    }
+	};
+
+
 }
 
 /****************************************************************************************************
@@ -69,4 +104,10 @@ version can be more than 1 dot.
 there is another one, just compare the left side of dot
 
 ** be careful about here, need to push back curr at end.
+
+solution 2
+Be careful about the corner cases:
+
+1: heading '0's
+2: 1 vs 1.0 ...
 ****************************************************************************************************/

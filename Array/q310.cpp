@@ -114,6 +114,78 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    vector<int> findMinHeightTrees(int n, vector<pair<int, int>>& edges) {
+	        vector<int> rst;
+	        if (n<=0) return rst;
+	        if (n<=2)
+	        {
+	            for(int i=0;i<n;i++) rst.push_back(i);
+	            return rst;
+	        }
+	        
+	        vector<vector<int> > graph(n);
+	        for(int i=0;i<edges.size();i++)
+	        {
+	            graph[edges[i].first].push_back(edges[i].second);
+	            graph[edges[i].second].push_back(edges[i].first);
+	        }
+
+	        vector<int> path;
+	        vector<int> maxpath;
+	        path.push_back(-1);
+	        path.push_back(0);
+	        
+	        int depth=1;
+	        int maxdepth=1;
+	        helper(graph,path, maxpath,depth,maxdepth);
+	        path.resize(2);
+	        path[0]=-1;
+	        path[1]=maxpath[maxpath.size()-1];
+	        maxpath = path;
+	        depth=1;
+	        maxdepth=1;
+	        helper(graph,path, maxpath,depth,maxdepth);
+	        maxpath.erase(maxpath.begin());
+	        int len=maxpath.size();
+
+	        rst.push_back(maxpath[len/2]);
+	        if (len%2==0)
+	        {
+	            rst.push_back(maxpath[len/2-1]);
+	        }
+	        
+	        return rst;
+	    }
+	    
+	    void helper(vector<vector<int> >& graph, vector<int>& path, vector<int>& maxpath, int depth, int& maxdepth)
+	    {
+	        int curr = path.back();    
+	        int pre = path[path.size()-2];
+	        if (graph[curr].size()<=1 && pre!=-1)
+	        {
+	            if(depth>maxdepth)
+	            {
+	                maxdepth = depth;
+	                maxpath = path;
+	            }
+	            return;
+	        }
+	        path.push_back(-1);
+	        for(int i=0;i<graph[curr].size();i++)
+	        {
+	            if (graph[curr][i]!=pre)
+	            {
+	                path[depth+1]=graph[curr][i];
+	                helper(graph,path,maxpath,depth+1,maxdepth);
+	                
+	            }
+	        }
+	        path.erase(path.begin()+path.size()-1);
+	    }
+	};
+
 }
 
 /****************************************************************************************************
@@ -155,4 +227,11 @@ Here is the better solution:
     }
   }
 };
+
+solution 2:
+recursive solution. 
+1: find the max depth from the random node
+2: from this node, find the max, 
+3: get the middle from the longest path.
+
 ****************************************************************************************************/
