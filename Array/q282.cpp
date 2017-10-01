@@ -70,10 +70,51 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    vector<string> addOperators(string num, int target) {
+	        string sol="";
+	        vector<string> rst;
+	        int len =num.size();
+	        if (len==0) return rst;
+	        for(int sz=0;sz<len;sz++)
+	        {
+	            string subnc = num.substr(0,sz+1);
+	            if (subnc.size()>1 && subnc[0]=='0') break;
+	            long nc = stol(subnc);
+	            dfs(num,rst,subnc,target,nc,sz+1,nc);
+	        }
+	        return rst;
+	    }
+	    
+	    void dfs(string num, vector<string>& rst, string sol, int target, long curr, int start, long pre)
+	    {
+	        if (start==num.size())
+	        {
+	            if (curr == target) rst.push_back(sol);
+	            else return;
+	        }
+	        for(int sz=start;sz<num.size();sz++)
+	        {
+	            string subnc = num.substr(start,sz-start+1);
+	            if (subnc.size()>1 && subnc[0]=='0') break;
+	            long nc = stol(subnc);
+	            // +
+	            dfs(num,rst,sol+"+"+subnc,target,curr+nc,sz+1,nc);
+	            // -
+	            dfs(num,rst,sol+"-"+subnc,target,curr-nc,sz+1,-nc);
+	            // *
+	            dfs(num,rst,sol+"*"+subnc,target,curr-pre+pre*nc,sz+1,pre*nc);
+	        }
+	    }
+	};
+
 }
 
 /****************************************************************************************************
                                              Note
 Just the dfs, no trick except the *, which minus the previous value and plus current. Just do the 
 search. 
+
+solution 2:  need to write it down and just dfs
 ****************************************************************************************************/

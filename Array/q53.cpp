@@ -49,6 +49,31 @@ public:
     }
 };
 
+class Solution2 {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int len=nums.size();
+        if (len==0) return 0;
+        if (len==1) return nums[0];
+        
+        vector<int> sum(len+1,0);
+        for(int i=0;i<len;i++)
+        {
+            sum[i+1]=sum[i]+nums[i];
+        }
+        
+        int min=sum[1]>0?0:sum[1];
+        int max=sum[1];
+        for(int i=2;i<=len;i++)
+        {
+            max = (sum[i]-min)>max?(sum[i]-min):max;
+            min = min<sum[i]?min:sum[i];
+        }
+        
+        return max;
+    }
+};
+
 class D_C_Solution{
 public:
     int maxSubArray(vector<int>& nums){
@@ -84,4 +109,7 @@ Linear solution: initial the max to be the first element. In the loop compare th
 with 0 first, then added the current element. Then compare the current max. 
 
 divide and conquer: remember the end element should be considered. 
+
+solution 2
+sum all, then keep tracking min, find the max
 ****************************************************************************************************/
