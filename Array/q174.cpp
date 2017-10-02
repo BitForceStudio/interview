@@ -60,11 +60,48 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    int calculateMinimumHP(vector<vector<int>>& dungeon) {
+	        int lenr = dungeon.size();
+	        if (lenr==0) return 1;
+	        int lenc = dungeon[0].size();
+	        if (lenc==0) return 1;
+	        
+	        vector<int> minhp(lenc,0);
+	        vector<int> curr(lenc,0);
+
+	        // last row
+	        minhp[lenc-1] = dungeon[lenr-1][lenc-1]>=0?1:(1-dungeon[lenr-1][lenc-1]);
+	        
+	        for(int i=lenc-2;i>=0;i--)
+	        {
+	            int tmp = minhp[i+1]-dungeon[lenr-1][i];
+	            minhp[i] = tmp>0?tmp:1;
+	        }
+	        
+	        for(int i=lenr-2;i>=0;i--)
+	        {
+	            int tmp = minhp[lenc-1]-dungeon[i][lenc-1];
+	            minhp[lenc-1]=tmp>0?tmp:1;
+	            for(int j=lenc-2;j>=0;j--)
+	            {
+	                int tmp = min(minhp[j],minhp[j+1])-dungeon[i][j];
+	                minhp[j]=tmp>0?tmp:1;
+	            }
+	        }
+	        
+	        return minhp[0];
+	    }
+	};
+
 }
 
 /****************************************************************************************************
                                              Note
 minhp[i][j] represents the min hp needed at position (i, j)
 Add dummy row and column at bottom and right side
-idea is from right bottom to the left top
+idea is from right bottom to the left top and dungeon blood reverse. 
+
+solution2, space save
 ****************************************************************************************************/
