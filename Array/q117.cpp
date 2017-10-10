@@ -133,10 +133,76 @@ namespace std
 
 	};
 
+	/**
+	 * Definition for binary tree with next pointer.
+	 * struct TreeLinkNode {
+	 *  int val;
+	 *  TreeLinkNode *left, *right, *next;
+	 *  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+	 * };
+	 */
+	class Solution2 {
+	public:
+	    void connect(TreeLinkNode *root) {
+	        if (root==NULL || (root->left==NULL && root->right==NULL)) return;
+	        
+	        TreeLinkNode* upper=root;
+	        TreeLinkNode* left=NULL;
+	        TreeLinkNode* runner=NULL;
+	        while(upper!=NULL || left!=NULL || runner!=NULL)
+	        {
+	            //find first child of the upper layer
+	            while(upper!=NULL && upper->left==NULL && upper->right==NULL) upper=upper->next;
+	            if (upper==NULL) break;
+	            // set the left and initial runner
+	            if (upper->left!=NULL)
+	            {
+	                left=upper->left;
+	                runner = upper->left;
+	            }
+	            
+	            if (upper->right!=NULL) 
+	            {
+	                if (left==NULL)
+	                {
+	                    left=upper->right;
+	                    runner = upper->right;
+	                }
+	                else
+	                {
+	                    runner->next = upper->right;
+	                    runner=runner->next;
+	                }
+	            }
+
+	            while(upper->next!=NULL)
+	            {
+	                upper=upper->next;
+	                if (upper->left!=NULL)
+	                {
+	                    runner->next = upper->left;
+	                    runner=runner->next;
+	                }
+	                if (upper->right!=NULL)
+	                {
+	                    runner->next = upper->right;
+	                    runner=runner->next;
+	                }
+	            }
+	            // update the upper
+	            upper = left;
+	            left=NULL;
+	            runner=NULL;
+	        }
+	    }
+	};
+
 }
 
 /****************************************************************************************************
                                              Note
 My idea is bad, because it uses lots of travel. The better idea is travel the connected level and 
 connected the next level. it was much better.
+
+solution 2: it has to be OR !!!!
 ****************************************************************************************************/

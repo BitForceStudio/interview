@@ -63,6 +63,51 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    vector<string> restoreIpAddresses(string s) {
+	        vector<string> rst;
+	        if (s.size()<4 || s.size()>12) return rst;
+	        
+	        helper(s,rst,"",0,4);
+	        return rst;
+	    }
+	    
+	    void helper(string s, vector<string>& rst, string curr, int i, int left)
+	    {
+	        if (left==0 && i!=s.size()) return;
+	        if (left==0 && i==s.size())
+	        {
+	            curr = curr.substr(0,curr.size()-1);
+	            rst.push_back(curr);
+	            return;
+	        }
+	        
+	        if (s[i]=='0')
+	        {
+	            helper(s,rst,curr+"0.",i+1,left-1);
+	        }
+	        else if (s[i]=='1')
+	        {
+	            helper(s,rst,curr+s.substr(i,1)+".",i+1,left-1);
+	            if (i+2<=s.size()) helper(s,rst,curr+s.substr(i,2)+".",i+2,left-1);
+	            if (i+3<=s.size()) helper(s,rst,curr+s.substr(i,3)+".",i+3,left-1);
+	        }
+	        else if (s[i]>='3')
+	        {
+	            helper(s,rst,curr+s.substr(i,1)+".",i+1,left-1);
+	            if (i+2<=s.size()) helper(s,rst,curr+s.substr(i,2)+".",i+2,left-1);
+	        }
+	        else if (s[i]=='2')
+	        {
+	            helper(s,rst,curr+s.substr(i,1)+".",i+1,left-1);
+	            if (i+2<=s.size()) helper(s,rst,curr+s.substr(i,2)+".",i+2,left-1);
+	            if (i+3<=s.size() && s[i+1]<'5') helper(s,rst,curr+s.substr(i,3)+".",i+3,left-1);
+	            if (i+3<=s.size() && s[i+1]=='5' && s[i+2]<='5') helper(s,rst,curr+s.substr(i,3)+".",i+3,left-1);
+	        }
+	    }
+	};
+
 }
 
 /****************************************************************************************************

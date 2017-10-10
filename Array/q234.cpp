@@ -51,6 +51,41 @@ namespace std
 	    }
 	};
 
+	class Solution {
+	public:
+	    bool isPalindrome(ListNode* head) {
+	        int len=0;
+	        ListNode* dp = head;
+	        while(head!=NULL) {head=head->next; len++;}
+	        
+	        if (len<=1) return true;
+	        
+	        head = dp;
+	        for(int i=0;i<(len/2);i++) head=head->next;
+	         
+	        // reverse the rest
+	        ListNode* nx = head->next;
+	        ListNode* nnx = NULL;
+	        head->next=NULL;
+	        while(nx!=NULL)
+	        {
+	            nnx = nx->next;
+	            nx->next = head;
+	            head = nx;
+	            nx=nnx;
+	        }
+	        
+	        while(head!=NULL)
+	        {
+	            if(dp->val!=head->val) return false;
+	            dp=dp->next;
+	            head=head->next;
+	        }
+	        
+	        return true;
+	    }
+	};
+
 }
 
 /****************************************************************************************************
