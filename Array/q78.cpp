@@ -61,6 +61,31 @@ namespace std
 	        return rst;
 	    }
 	};
+
+	class Solution2 {
+	public:
+	    vector<vector<int>> subsets(vector<int>& nums) {
+	        int len = nums.size();
+	        vector<vector<int> > rst; rst.resize(1);
+	        if (len<=0)
+	        {
+	            return rst;
+	        }
+	        
+	        for(int i=0;i<len;i++)
+	        {
+	            int l = rst.size();
+	            for(int j=0;j<l;j++)
+	            {
+	                vector<int> tmp = rst[j];
+	                tmp.push_back(nums[i]);
+	                rst.push_back(tmp);
+	            }
+	        }
+	        
+	        return rst;
+	    }
+	};
 }
 
 /****************************************************************************************************

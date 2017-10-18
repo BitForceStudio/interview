@@ -21,32 +21,62 @@ Try to do this in one pass.
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
-class Solution {
-public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode* dphead=new ListNode(0);
-        dphead->next = head;
-        ListNode* cphead=dphead;
-        int t=nextnode(dphead,n);
-        return cphead->next;
-    }
-    
-    int nextnode(ListNode* curr,int n)
-    {
-        if (curr->next==NULL)
-        {
-            return 1;
-        }
-        int ic=nextnode(curr->next,n);
-        if (ic==n) 
-        {
-            // remove the next node
-            curr->next=curr->next->next;
+ #include "problems\problems\Header.h"
+
+namespace std
+{
+    class Solution {
+    public:
+        ListNode* removeNthFromEnd(ListNode* head, int n) {
+            ListNode* dphead=new ListNode(0);
+            dphead->next = head;
+            ListNode* cphead=dphead;
+            int t=nextnode(dphead,n);
+            return cphead->next;
         }
         
-        return ic+1;
-    }
-};
+        int nextnode(ListNode* curr,int n)
+        {
+            if (curr->next==NULL)
+            {
+                return 1;
+            }
+            int ic=nextnode(curr->next,n);
+            if (ic==n) 
+            {
+                // remove the next node
+                curr->next=curr->next->next;
+            }
+            
+            return ic+1;
+        }
+    };
+
+    class Solution2 {
+    public:
+        ListNode* removeNthFromEnd(ListNode* head, int n) {
+            ListNode* dp=new ListNode(0);
+            dp->next=head;
+            
+            ListNode* fast=head;
+            int i=0;
+            while(i<n) 
+            {
+                fast=fast->next;
+                i++;
+            }
+            
+            ListNode* slow=dp;
+            while(fast!=NULL) 
+            {
+                fast=fast->next;
+                slow=slow->next;
+            }
+            slow->next = slow->next->next;
+            return dp->next;
+        }
+    };
+}
 /****************************************************************************************************
                                              Note
 Another approach is using two runners, one fast and one slow, fast - slow = n. Since fast reached the
