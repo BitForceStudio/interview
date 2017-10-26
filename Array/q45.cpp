@@ -16,48 +16,75 @@ to the last index.)
 Note:
 You can assume that you can always reach the last index.
 ****************************************************************************************************/
+#include "problems\problems\Header.h"
 
-class Solution {
-public:
-    int maxstep = 2147483647;
-    int jump(vector<int>& nums) {
-        int len=nums.size();
-        if (len==0) return 0;
-        if (nums[0]==0) return 0;
-        if (len==1 && nums[0]!=0) return 0;
-        
-        int max=0;
-        int curr = 0;
-        int step=0;
-        for(int i=0;i<len-1;i++)
-        {
-            max=max>(i+nums[i])?max:i+nums[i];
-            if (i==curr)
+namespace std
+{
+    class Solution {
+    public:
+        int maxstep = 2147483647;
+        int jump(vector<int>& nums) {
+            int len=nums.size();
+            if (len==0) return 0;
+            if (nums[0]==0) return 0;
+            if (len==1 && nums[0]!=0) return 0;
+            
+            int max=0;
+            int curr = 0;
+            int step=0;
+            for(int i=0;i<len-1;i++)
             {
-                step++;
-                curr=max;
+                max=max>(i+nums[i])?max:i+nums[i];
+                if (i==curr)
+                {
+                    step++;
+                    curr=max;
+                }
             }
+            return step;
+            //int maxstep=2147483647;
+            //return runner(nums,0,len-1, 0);
         }
-        return step;
-        //int maxstep=2147483647;
-        //return runner(nums,0,len-1, 0);
-    }
-    
-    int runner(vector<int>& nums, int curr, int len, int step)
-    {
-        if (step>=maxstep) return -1;
-        if (curr>=len) { maxstep=step; return 0;}
-        if (nums[curr]==0) return -1;
-        int min = 2147483647;
-        for(int i=nums[curr];i>0;i--)
+        
+        int runner(vector<int>& nums, int curr, int len, int step)
         {
-            int rcr = runner(nums,curr+i,len,step+1);
-            if (rcr<0) continue;
-            min=min<rcr?min:rcr;
+            if (step>=maxstep) return -1;
+            if (curr>=len) { maxstep=step; return 0;}
+            if (nums[curr]==0) return -1;
+            int min = 2147483647;
+            for(int i=nums[curr];i>0;i--)
+            {
+                int rcr = runner(nums,curr+i,len,step+1);
+                if (rcr<0) continue;
+                min=min<rcr?min:rcr;
+            }
+            return min+1;
         }
-        return min+1;
-    }
-};
+    };
+
+    class Solution2 {
+    public:
+        int jump(vector<int>& nums) {
+            int len=nums.size();
+            if(len<=1) return 0;
+            
+            vector<int> dp(len,INT_MAX);
+            dp[0]=0;
+            for(int i=0;i<len;i++)
+            {
+                for(int j=min(i+nums[i],len-1);j>i;j--)
+                {
+                    if( dp[j]<INT_MAX) break;
+                    dp[j]=dp[i]+1;
+                    if(j==len-1) return dp[j];
+                }
+            }
+            
+            return dp[len-1];
+        }
+    };
+
+}
 
 /****************************************************************************************************
                                              Note

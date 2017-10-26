@@ -43,6 +43,52 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    int trap(vector<int>& height) {
+	        // keep tracking the
+	        int len = height.size();
+	        if(len<=2) return 0;
+	        
+	        stack<int> index; index.push(0);
+	        int rst=0;
+	        for(int i=1;i<len;i++)
+	        {
+	            if (height[i]<=height[index.top()]) index.push(i);
+	            else
+	            {
+	                while(index.size()>1 && height[index.top()]<height[i]) index.pop();
+
+	                if (index.size()==1 && height[index.top()]<=height[i])
+	                {                
+	                    int left = index.top();
+	                    int right = i;
+	                    index.pop(); 
+	                    int minval=min(height[left],height[right]);
+	                    for(int j=left+1;j<right;j++)
+	                    {
+	                        rst+=(minval-height[j])>0?(minval-height[j]):0;
+	                    }
+	                }
+	                index.push(i);
+	            }
+	        }
+	        while(index.size()>1)
+	        {
+	            int right=index.top();
+	            index.pop();
+	            int left = index.top();
+	            int minval=min(height[left],height[right]);
+	            for(int j=left+1;j<right;j++)
+	            {
+	                rst+=(minval-height[j])>0?(minval-height[j]):0;
+	            }
+	        }
+	        
+	        return rst;
+	    }
+	};
+
 }
 
 /****************************************************************************************************
@@ -53,4 +99,6 @@ and move another one. and update the max of the moving one. it make sure the mov
 the right answer. 
 
 ** how get this idea is the problem...From two pointer? need to remember this one...
+
+solution 2 is what I could understand. 
 ****************************************************************************************************/
