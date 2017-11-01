@@ -94,4 +94,6 @@ the other one, is, find the maxnum step based on current step, then if can reach
 update the base and go on. becasue there is assumption that there always a solution. so, step store 
 the minimal step that can reached the current index. sence the i to the end, it will show the minimal
 step to the end. 
+
+It is a dp problem. But there are several part that can improve the performance
 ****************************************************************************************************/

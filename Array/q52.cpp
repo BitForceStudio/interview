@@ -60,7 +60,41 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    int totalNQueens(int n) {
+	        if (n==1) return 1;
+	        if (n==2) return 0;
+	        
+	        vector<bool> vert(n,false);
+	        vector<bool> forw(2*n-1,false);
+	        vector<bool> back(2*n-1,false);
+	        int rst=0;
+	        
+	        helper(0,n,vert,forw,back,rst);
+	        return rst;
+	    }
+	    
+	    void helper(int i, int& n, vector<bool>& vert, vector<bool>& forw, vector<bool>& back, int& rst)
+	    {
+	        if (i==n)
+	        {
+	            rst++;
+	            return;
+	        }
+	        
+	        for(int j=0;j<n;j++)
+	        {
+	            if (vert[j] || forw[i+j] || back[i+n-j-1]) continue;
+	            vert[j]=forw[i+j]=back[i+n-j-1] = true;
+	            helper(i+1,n,vert,forw,back,rst);
+	            vert[j]=forw[i+j]=back[i+n-j-1] = false;
+	        }
+	    }
+	};
+
 }
+
 
 /****************************************************************************************************
                                              Note

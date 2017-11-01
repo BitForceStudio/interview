@@ -24,38 +24,25 @@ namespace std
 	class Solution {
 	public:
 	    string getPermutation(int n, int k) {
-	        string rst;
-	        if (n==0 || k>tmult(n)) return rst;
-	        if (n==1) return "1";
-	        rst="";
-	        vector<int> seed; seed.resize(n);   // **
-	        for(int i=1;i<=n;i++)   
-	        {
-	            seed[i-1]=i;
-	        }
-	        int m=0,d=0;
-	        int c = tmult(n-1);
-	        int curr = 0;
-	        k=k-1;
-	        for(int i=0;i<n-1;i++)
-	        {
-	            d = k/c;
-	            curr = seed[d];
-	            rst+=char(curr+'0');
-	            seed.erase(seed.begin()+d);
-	            k=k%c;
-	            c/=(n-i-1);
-	        }
-	        rst+=char(seed[0]+'0');
-	        return rst;
-	    }
-	    
-	    int tmult(int n)
-	    {
-	        int rst = 1;
-	        for(int i=1;i<=n;i++)
-	            rst*=i;
-	        return rst;
+            string rst;
+            vector<int> arr(n,0);
+            int m=1;
+            for(int i=0;i<n;i++)
+            {
+                arr[i]=i+1;
+                if (i>1) m*=i;
+            }
+            k--;
+            for(int i=0;i<n-1;i++)
+            {
+                int c = k/m;
+                rst+=arr[c]+'0';
+                arr.erase(arr.begin()+c);
+                k%=m;
+                m/=(n-i-1);
+            }
+            rst+=arr[0]+'0';
+            return rst;
 	    }
 	};
 

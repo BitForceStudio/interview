@@ -52,7 +52,7 @@ namespace std
 	 *     ListNode(int x) : val(x), next(NULL) {}
 	 * };
 	 */
-	class Solution {
+	class Solution2 {
 	public:
 	    ListNode* rotateRight(ListNode* head, int k) {
 	        if (head==NULL || k==0) return head;
@@ -89,6 +89,43 @@ namespace std
 	        slower->next = NULL;
 	        
 	        return newHead;
+	    }
+	};
+
+	class Solution3 {
+	public:
+	    ListNode* rotateRight(ListNode* head, int k) {
+	        if (head==NULL || head->next == NULL || k==0) return head;
+	        
+	        ListNode* dp = new ListNode(0);
+	        dp->next = head;
+	        int len=0;
+	        
+	        while(k>0) 
+	        {
+	            if(head==NULL)
+	            {
+	                k%=len;
+	                if (k==0) break;
+	                head=dp->next;
+	            }
+	            len++;
+	            k--;
+	            head=head->next;
+	        }
+	        if(head==NULL) return dp->next;
+	        
+	        ListNode* nend = dp->next;
+	        while(head->next!=NULL)
+	        {
+	            head=head->next;
+	            nend=nend->next;
+	        }
+	        
+	        head->next = dp->next;
+	        dp->next = nend->next;
+	        nend->next = NULL;
+	        return dp->next;
 	    }
 	};
 
