@@ -62,6 +62,56 @@ namespace std
 
 	class Solution {
 	public:
+	    void sortColors(vector<int>& nums) {
+	        vector<int> counter(3,0);
+	        for(int i=0;i<nums.size();i++)
+	        {
+	            counter[nums[i]]++;
+	        }
+	        int t=0;
+	        for(int i=0;i<3;i++)
+	        {
+	            for(int j=0;j<counter[i];j++)
+	            {
+	                nums[t]=i;
+	                t++;
+	            }
+	        }
+	    }
+	};
+
+	class Solution {
+	public:
+	    void sortColors(vector<int>& nums) {
+	        int s0=0,t2=nums.size()-1;
+	        
+	        while(s0<t2 && nums[s0]==0) s0++;
+	        while(t2>s0 && nums[t2]==2) t2--;
+	        if(s0>=t2) return;
+	        int r=s0;
+	        while(r<=t2)
+	        {
+	            if(nums[r]==2 && r<t2)
+	            {
+	                nums[r]=nums[t2];
+	                nums[t2]=2;
+	                t2--;
+	                continue;
+	            }
+	            else if(nums[r]==0 && r>s0)
+	            {
+	                nums[r]=nums[s0];
+	                nums[s0]=0;
+	                s0++;
+	                continue;
+	            }
+	            r++;
+	        }
+	    }
+	};
+
+	class Solution {
+	public:
 	    void sortColors1(vector<int>& nums) {
 	        // swap 0 and 2
 	        int len=nums.size();

@@ -39,9 +39,34 @@ public:
         curr->next=NULL;
         return dphead->next;
     }
+
+    class Solution {
+    public:
+        ListNode* deleteDuplicates(ListNode* head) {
+            if (head==NULL || head->next==NULL) return head;
+            
+            ListNode* dp=new ListNode(0);
+            dp->next = head;
+            while(head!=NULL && head->next!=NULL)
+            {
+                if (head->val==head->next->val)
+                {
+                    head->next = head->next->next;
+                }
+                else  // ****
+                {
+                    head=head->next;
+                }
+            }
+            
+            return dp->next;
+        }
+    };
 };
 
 /****************************************************************************************************
                                              Note
 Just be careful for some bugs...
+
+**** shouldn't go to next if changed the next 
 ****************************************************************************************************/

@@ -42,6 +42,29 @@ namespace std
 	    }
 	};
 
+	class Solution {
+	public:
+	    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+	        int lenr = matrix.size();
+	        if(lenr==0) return false;
+	        int lenc = matrix[0].size();
+	        if(lenc==0) return false;
+	        if(target<matrix[0][0] || target > matrix[lenr-1][lenc-1]) return false;
+	        
+	        // binary search on first colume
+	        int s=0,t=lenr*lenc-1;
+	        int mid =0;
+	        while(s<=t)
+	        {
+	            mid=(s+t)/2;
+	            if(matrix[mid/lenc][mid%lenc]<target) s=mid+1;
+	            else if(matrix[mid/lenc][mid%lenc]>target) t=mid-1;
+	            else return true;
+	        }
+	        return false;
+	    }
+	};
+
 }
 
 /****************************************************************************************************

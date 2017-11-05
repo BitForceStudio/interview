@@ -54,6 +54,28 @@ namespace std
 	    }
 	};
 
+	class Solution {
+	public:
+	    int removeDuplicates(vector<int>& nums) {
+	        int len = nums.size();
+	        if(len<=2) return len;
+	        
+	        int r = 1;
+	        while(r<nums.size())
+	        {
+	            if(r<(nums.size()-1) && nums[r]==nums[r-1] && nums[r]==nums[r+1])
+	            {
+	                nums.erase(nums.begin()+r);
+	            }
+	            else
+	            {
+	                r++;
+	            }
+	        }
+	        return nums.size();
+	    }
+	};
+
 }
 
 /****************************************************************************************************

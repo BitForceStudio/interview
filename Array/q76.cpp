@@ -45,6 +45,69 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    string minWindow(string s, string t) {
+	        int lens = s.size();
+	        int lent = t.size();
+	        if(lens<lent || lent==0) return "";
+	        
+	        string rst=s;
+	        vector<int> mapt(128,0);
+	        for(int i=0;i<lent;i++) mapt[t[i]]++;
+	        
+	        vector<int> maps(128,0);
+	        int st=0,ed=0,nf=0;
+	        bool qfound=false;
+	        while(ed<lens)
+	        {
+	            if(mapt[s[ed]]>0)
+	            {
+	                maps[s[ed]]++;
+	                bool qf=true;
+	                if(!qfound)
+	                {
+	                    for(int i=0;i<128;i++)
+	                    {
+	                        if(maps[i]<mapt[i])
+	                        {
+	                            qf=false;
+	                            break;
+	                        }
+	                    }
+	                }
+	                
+	                if(qf)
+	                {
+	                    // update s
+	                    while(st<ed)
+	                    {
+	                        if (mapt[s[st]]>0 && maps[s[st]]==mapt[s[st]])
+	                        {
+	                            break;
+	                        }
+	                        else if (mapt[s[st]]>0)
+	                        {
+	                            maps[s[st]]--;
+	                        }
+	                        st++;
+	                    }
+	                    
+	                    if(rst.size()>(ed-st))
+	                    {
+	                        rst=s.substr(st,(ed-st+1));
+	                    }
+	                    qfound=true;
+	                }
+	            }
+	            ed++;
+	        }
+	        
+	        if (!qfound) return "";
+	        return rst;
+	    }
+	};
+
 }
 
 /****************************************************************************************************
