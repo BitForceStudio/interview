@@ -49,10 +49,34 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    vector<int> grayCode(int n) {
+	        vector<int> rst(1,0);
+	        if(n<=0) return rst;
+	        
+	        rst.push_back(1);
+	        if(n==1) return rst;
+	        int curr=2;
+	        for(int i=1;i<n;i++)
+	        {
+	            int tsize = rst.size();
+	            for(int j=tsize-1;j>=0;j--)
+	            {
+	                rst.push_back(curr+rst[j]);
+	            }
+	            curr*=2;
+	        }
+	        return rst;
+	    }
+	};
+
 }
 
 /****************************************************************************************************
                                              Note
 It is not difficult, just try to write down the sequence, it will show the pattern. then try to use
 math to model it. 
+
+different solution
 ****************************************************************************************************/

@@ -58,6 +58,37 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    ListNode* partition(ListNode* head, int x) {
+	        if (head==NULL || head->next==NULL) return head;
+	        
+	        ListNode* dps = new ListNode(0);
+	        ListNode* dpg = new ListNode(0);
+	        ListNode* cs = dps;
+	        ListNode* cg = dpg;
+	        while(head!=NULL)
+	        {
+	            if (head->val<x)
+	            {
+	                cs->next = head;
+	                cs=cs->next;
+	                head=head->next;
+	                cs->next = NULL;
+	            }
+	            else
+	            {
+	                cg->next = head;
+	                cg=cg->next;
+	                head=head->next;
+	                cg->next=NULL;
+	            }
+	        }
+	        cs->next = dpg->next;
+	        return dps->next;
+	    }
+	};
+
 }
 
 /****************************************************************************************************
