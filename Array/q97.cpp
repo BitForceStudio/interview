@@ -47,6 +47,42 @@ namespace std
 	    }
 	};
 
+    class Solution2 {
+    public:
+        bool isInterleave(string s1, string s2, string s3) {
+            // dfs
+            int len1=s1.size();
+            int len2=s2.size();
+            int len3=s3.size();
+            if (len1==0 && len2==0 && len3==0) return true;
+            if (len1+len2!=len3) return false;
+            if (len1==0) return s2==s3;
+            if (len2==0) return s1==s3;
+
+            int i=0,j=0,k=0;
+            unordered_set<int> qs;  // use this to store the searched paths.
+            bool rst = helper(s1,s2,s3,i,j,k,qs);
+            return rst;
+        }
+        
+        bool helper(string& s1, string& s2, string& s3, int i, int j, int k,unordered_set<int>& qs)
+        {
+            if(i==s1.size() && j==s2.size() && k==s3.size()) return true;
+            bool r1=false, r2=false;
+            if(qs.find(i*s3.size()+j)!=qs.end()) return false;
+            qs.insert(i*s3.size()+j);
+            if(i<s1.size() && s1[i]==s3[k])
+            {
+                r1 = helper(s1,s2,s3,i+1,j,k+1,qs);
+            }
+            if(!r1 && j<s2.size() && s2[j]==s3[k])
+            {
+                r2 = helper(s1,s2,s3,i,j+1,k+1,qs);
+            }
+            
+            return r1 || r2;
+        }
+    };
 }
 
 /****************************************************************************************************

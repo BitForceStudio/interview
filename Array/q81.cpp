@@ -51,6 +51,62 @@ namespace std
 	    }
 	};
 
+	class Solution {
+	public:
+	    bool search(vector<int>& nums, int target) {
+	        int len=nums.size();
+	        if(len==0) return false;
+	        if(len==1) return nums[0]==target;
+	        if(len==2) return nums[0]==target || nums[1]==target;
+	        
+	        int s=0,t=len-1;
+	        while(s<t)
+	        {
+	            int mid=(s+t)/2;
+	            if (nums[mid]==target) return true;
+	            if(nums[s]==nums[t]) s++;
+	            else if(nums[s]>nums[t])
+	            {
+	                if(target<=nums[t])
+	                {
+	                    if(nums[mid]<=nums[t])
+	                    {
+	                        if(nums[mid]<target)
+	                        {
+	                            s=mid+1;
+	                        }
+	                        else
+	                        {
+	                            t=mid;
+	                        }
+	                    }
+	                    else
+	                    {
+	                        s=mid+1;
+	                    }
+	                }
+	                else
+	                {
+	                    if(nums[mid]<nums[s])
+	                    {
+	                        t=mid;   
+	                    }
+	                    else
+	                    {
+	                        if(nums[mid]<target) s=mid+1;
+	                        else t=mid;
+	                    }
+	                }
+	            }
+	            else
+	            {
+	                if(nums[mid]>target) t=mid;
+	                else s=mid+1;
+	            }
+	        }
+	        return nums[s]==target || nums[t]==target;
+	    }
+	};
 }
 
 /****************************************************************************************************
@@ -58,4 +114,6 @@ namespace std
 there is one additional one: r--. 
 can ** do better? 
 
+solution2
+divided them into all possibilities. 
 ****************************************************************************************************/

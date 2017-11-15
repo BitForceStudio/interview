@@ -80,6 +80,63 @@ namespace std
 	    }
 	};
 
+	class Solution {
+	public:
+	    vector<TreeNode*> generateTrees(int n) {
+	        vector<TreeNode*> rst;
+	        if(n==0) return rst;
+	        
+	        TreeNode* first=new TreeNode(1);
+	        rst.push_back(first);
+	        for(int i=2;i<=n;i++)
+	        {
+	            int len = rst.size();
+	            for(int j=0;j<len;j++)
+	            {
+	                // insert the current node to the right side
+	                TreeNode* root = copytree(rst[j]);
+	                TreeNode* rt=root;
+	                while(rt->right!=NULL)
+	                {
+	                    TreeNode* rc = rt->right;
+	                    TreeNode* tmp = new TreeNode(i);
+	                    rt->right=tmp;
+	                    tmp->left=rc;
+	                    TreeNode* nt = copytree(root);
+	                    rst.push_back(nt);
+	                    tmp->left=NULL;
+	                    rt->right=rc;
+	                    rt=rt->right;
+	                }
+	                TreeNode* tmp = new TreeNode(i);
+	                rt->right=tmp;
+	                rst.push_back(root);
+	                // the current tree is the new node left child
+	                TreeNode* nt = new TreeNode(i);
+	                nt->left=rst[j];
+	                rst[j]=nt;
+	            }
+	        }
+	        
+	        return rst;
+	    }
+	    
+	    // copy the tree
+	    TreeNode* copytree(TreeNode* root)
+	    {
+	        if (root==NULL) return NULL;
+	        TreeNode* nrt = new TreeNode(root->val);
+
+	        TreeNode* nl = copytree(root->left);    
+	        nrt->left = nl;
+	        
+	        TreeNode* nr = copytree(root->right);
+	        nrt->right = nr;
+	        
+	        return nrt;
+	    }
+	};
+
 }
 
 /****************************************************************************************************

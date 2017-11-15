@@ -45,9 +45,42 @@ namespace std
 	    }
 	};
 
+	class Solution {
+	public:
+	    vector<int> inorderTraversal(TreeNode* root) {
+	        vector<int> rst;
+	        if(root==NULL) return rst;
+
+	        unordered_set<TreeNode*> qvisited;
+	        stack<TreeNode*> st;
+	        st.push(root);
+	        while(!st.empty())
+	        {
+	            TreeNode* curr = st.top();
+	            if(qvisited.find(curr)!=qvisited.end())
+	            {
+	                rst.push_back(curr->val);
+	                st.pop();
+	            }
+	            else
+	            {
+	                st.pop();
+	                if(curr->right) st.push(curr->right);
+	                st.push(curr);
+	                qvisited.insert(curr);
+	                if(curr->left) st.push(curr->left);
+	            }
+	        }
+	        
+	        return rst;
+	    }
+	};
 }
 
 /****************************************************************************************************
                                              Note
 Recursive is easy. How to do the iter? 
+
+iter: 
+Stack and a set to store the visited roots. 
 ****************************************************************************************************/
