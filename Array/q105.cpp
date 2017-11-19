@@ -51,7 +51,7 @@ namespace std
 	    }
 	};
 
-	class Solution {
+	class Solution2 {
 	public:
 	    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
 	        int len = inorder.size();

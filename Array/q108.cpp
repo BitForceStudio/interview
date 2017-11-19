@@ -43,6 +43,29 @@ namespace std
 	    }
 	};
 
+
+	class Solution2 {
+	public:
+	    TreeNode* sortedArrayToBST(vector<int>& nums) {
+	        int len=nums.size();
+	        if(len==0) return NULL;
+	        
+	        TreeNode* root = helper(nums,0,len-1);
+	        return root;
+	    }
+	    
+	    TreeNode* helper(vector<int>& nums,int s,int e)
+	    {
+	        int mid = (s+e)/2;
+	        TreeNode* root = new TreeNode(nums[mid]);
+	        
+	        if(s<mid) root->left=helper(nums,s,mid-1);
+	        if(e>mid) root->right =helper(nums,mid+1,e);
+	        
+	        return root;
+	    }
+	};
+
 }
 
 /****************************************************************************************************

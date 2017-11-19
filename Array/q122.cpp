@@ -25,6 +25,29 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    int maxProfit(vector<int>& prices) {
+	        int len=prices.size();
+	        if(len<2) return 0;
+	        
+	        int ibuy=0,isell=1;
+	        int rst=0;
+	        while(isell<len)
+	        {
+	            if(prices[isell-1]>prices[isell]) isell++;
+	            else
+	            {
+	                ibuy=isell-1;
+	                while(isell<len && prices[isell-1]<=prices[isell]) isell++;
+	                rst+=prices[isell-1]-prices[ibuy];
+	            }
+	        }
+	        
+	        return rst;
+	    }
+	};
+
 }
 
 /****************************************************************************************************

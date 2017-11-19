@@ -59,9 +59,39 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    TreeNode* sortedListToBST(ListNode* head) {
+	        if (head==NULL) return NULL;
+	        if (head->next==NULL)
+	        {
+	            TreeNode* root=new TreeNode(head->val);
+	            return root;
+	        }
+	        
+	        ListNode* slow=head;
+	        ListNode* slower=slow;
+	        ListNode* fast=head;
+	        while(fast->next!=NULL && fast->next->next!=NULL)
+	        {
+	            fast=fast->next->next;
+	            if (fast->next==NULL) break;
+	            slow=slow->next;
+	        }
+	        
+	        fast=slow->next;
+	        slow->next=NULL;
+	        TreeNode* root = new TreeNode(fast->val);
+	        root->left = sortedListToBST(head);
+	        root->right= sortedListToBST(fast->next);
+	        return root;
+	    }
+	};
+
 }
 
 /****************************************************************************************************
                                              Note
 Is there any other solution? slow and fast runner, just for O(1) space sack.
+Solution 2 O(1) space solution
 ****************************************************************************************************/

@@ -77,6 +77,29 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    void flatten(TreeNode* root) {
+	        if(root==NULL || (root->left==NULL && root->right==NULL)) return;
+	        helper(root);
+	    }
+	    
+	    TreeNode* helper(TreeNode* root)
+	    {
+	        if(root->left==NULL && root->right==NULL) return root;
+	        if(root->left!=NULL) 
+	        {
+	            TreeNode* right=root->right;
+	            root->right=root->left;
+	            root->left=NULL;
+	            root=helper(root->right);
+	            root->right=right;
+	        }
+	        if(root->right) root = helper(root->right);
+	        return root;
+	    }
+	};
+
 }
 
 /****************************************************************************************************
