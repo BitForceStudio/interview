@@ -55,6 +55,52 @@ namespace std
 	    unordered_map<UndirectedGraphNode*,UndirectedGraphNode*> mp;
 	};
 
+// BFS
+    class Solution2 {
+    public:
+        UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
+            if(node==NULL) return NULL;
+            unordered_map<UndirectedGraphNode*,UndirectedGraphNode*> copymap;
+            UndirectedGraphNode* cphead = new UndirectedGraphNode(node->label);
+            copymap[node] = cphead;
+            clone(node,copymap);
+            return cphead;
+        }
+        
+        void clone(UndirectedGraphNode* node, unordered_map<UndirectedGraphNode*,UndirectedGraphNode*>& copymap)
+        {
+            queue<UndirectedGraphNode*> q;
+            unordered_set<UndirectedGraphNode*> visited;
+            
+            q.push(node);
+            
+            while(!q.empty())
+            {
+                UndirectedGraphNode* tmp = q.front();
+                q.pop();
+
+                if(visited.find(tmp)!=visited.end()) continue;
+                UndirectedGraphNode* ctmp = copymap[tmp];
+                visited.insert(tmp);
+                
+                for(int i=0;i<tmp->neighbors.size();i++)
+                {
+                    if(copymap.find(tmp->neighbors[i])!=copymap.end())
+                    {
+                        ctmp->neighbors.push_back(copymap[tmp->neighbors[i]]);
+                    }
+                    else
+                    {
+                        UndirectedGraphNode* nnode = new UndirectedGraphNode(tmp->neighbors[i]->label);
+                        ctmp->neighbors.push_back(nnode);
+                        copymap[tmp->neighbors[i]]=nnode;
+                    }
+                    if(visited.find(tmp->neighbors[i])==visited.end()) q.push(tmp->neighbors[i]);
+                }
+            }
+        }
+    };
+
 }
 
 /****************************************************************************************************

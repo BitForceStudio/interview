@@ -95,6 +95,40 @@ namespace std
 	    }
 	};
 
+	class OfficialIterSolution {
+	public:
+	    vector<int> postorderTraversal(TreeNode* root) {
+	        vector<int> rst;
+	        if(root==NULL) return rst;
+	        
+	        TreeNode* lastvisited=NULL;
+	        stack<TreeNode*> st;
+	        while(!st.empty() || root!=NULL)
+	        {
+	            if(root)
+	            {
+	                st.push(root);
+	                root=root->left;
+	            }
+	            else
+	            {
+	                TreeNode* top = st.top();
+	                // if top->right is not visted, change to right path and continue
+	                // if top->right is visited, visit the top, set lastvisited to top
+	                if(top->right && lastvisited!=top->right)
+	                    root=top->right;
+	                else
+	                {
+	                    lastvisited = top;
+	                    rst.push_back(top->val);
+	                    st.pop();
+	                }
+	            }
+	        }
+	        return rst;
+	    }
+	};
+
 }
 
 /****************************************************************************************************

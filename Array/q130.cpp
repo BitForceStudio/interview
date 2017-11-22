@@ -80,6 +80,51 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    void solve(vector<vector<char>>& board) {
+	        int lenr=board.size();
+	        if(lenr==0) return;
+	        int lenc=board[0].size();
+	        if(lenc==0) return;
+	        
+	        for(int i=0;i<lenr;i++) 
+	        {
+	            helper(board,i,0,lenr,lenc);
+	            helper(board,i,lenc-1,lenr,lenc);
+	        }
+	        
+	        for(int i=0;i<lenc;i++)
+	        {
+	            helper(board,0,i,lenr,lenc);
+	            helper(board,lenr-1,i,lenr,lenc);
+	        }
+	        
+	        for(int i=0;i<lenr;i++)
+	        {
+	            for(int j=0;j<lenc;j++)
+	            {
+	                if(board[i][j]=='*') board[i][j]='O';
+	                else if(board[i][j]=='O') board[i][j]='X';
+	            }
+	        }
+	    }
+	    
+	    void helper(vector<vector<char> >& board, int i, int j, int lenr, int lenc)
+	    {
+	        if(i<0 || i>=lenr || j<0 || j>=lenc) return;
+	 
+	        if(board[i][j]=='O') 
+	        {
+	            board[i][j]='*';
+	            helper(board,i-1,j,lenr,lenc);
+	            helper(board,i,j-1,lenr,lenc);
+	            helper(board,i+1,j,lenr,lenc);
+	            helper(board,i,j+1,lenr,lenc);
+	        }
+	    }
+	};
+
 }
 
 /****************************************************************************************************
