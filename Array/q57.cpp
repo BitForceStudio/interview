@@ -202,6 +202,56 @@ namespace std
 	    }
 	};
 
+
+	class Solution2 {
+	public:
+	    vector<Interval> insert(vector<Interval>& intervals, Interval newInterval) {
+	        int len=intervals.size();
+	        if(len==0)
+	        {
+	            intervals.push_back(newInterval);
+	            return intervals;
+	        }
+	        if(newInterval.start > intervals[len-1].end) 
+	        {
+	            intervals.push_back(newInterval);
+	            return intervals;
+	        }
+	        if(newInterval.end < intervals[0].start)
+	        {
+	            intervals.insert(intervals.begin(),newInterval);
+	            return intervals;
+	        }
+	        
+	        vector<Interval> rst;
+	        bool qadded = false;
+	        for(int i=0;i<len;i++)
+	        {
+	            if(qadded) rst.push_back(intervals[i]);
+	            else if(newInterval.start > intervals[i].end)
+	            {
+	                rst.push_back(intervals[i]);
+	            }
+	            else
+	            {
+	                if(newInterval.end<intervals[i].start)
+	                {
+	                    rst.push_back(newInterval);
+	                    rst.push_back(intervals[i]);
+	                    qadded = true;
+	                }
+	                else
+	                {
+	                    newInterval.start = min(newInterval.start,intervals[i].start);
+	                    newInterval.end = max(newInterval.end,intervals[i].end);
+	                }
+	            }
+	        }
+	        if(!qadded) rst.push_back(newInterval);
+	        return rst;
+	    }
+	};
+
 }
 
 /****************************************************************************************************

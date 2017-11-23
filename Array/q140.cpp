@@ -69,6 +69,60 @@ namespace std
 	    }
 	};
 
+
+	class Solution2 {
+	public:
+	    vector<string> wordBreak(string s, vector<string>& wordDict) {
+	        unordered_set<string> dict;
+	        set<int> length;
+	        for(int i=0;i<wordDict.size();i++) 
+	        {
+	            length.insert(wordDict[i].size());
+	            dict.insert(wordDict[i]);
+	        }
+	        
+	        vector<string> rst;
+	        map<int,vector<string> > m;
+	        rst = helper(dict,length, m,s,s.size());
+	        
+	        return rst;
+	    }
+	    
+	    vector<string> helper(unordered_set<string>& dict, set<int>& len, map<int,vector<string> >& m, string s, int index)
+	    {
+	        if(m.find(index)!=m.end()) return m[index];
+	        vector<string> rst;
+	        if(index<=0)
+	        {
+	            return rst;
+	        }
+	        
+	        for(set<int>::iterator it=len.begin();it!=len.end();++it)
+	        {
+	            if(index-*it < 0) break;
+	            string str = s.substr(index-*it);
+	            if(dict.find(str)!=dict.end())
+	            {
+	                if (index-*it==0) rst.push_back(str);
+	                else
+	                {
+	                    vector<string> rtmp = helper(dict,len,m,s.substr(0,index-*it),index-*it);
+
+	                    if(rtmp.size()>0)
+	                    {
+	                        for(int i=0;i<rtmp.size();i++)
+	                        {   
+	                            string curr=rtmp[i]+" "+str;
+	                            rst.push_back(curr);
+	                        }
+	                    }
+	                }
+	            }
+	            m[index] = rst;
+	        } 
+	        return rst;
+	    }
+	};
 }
 
 /****************************************************************************************************

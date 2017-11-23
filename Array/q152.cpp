@@ -38,10 +38,32 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    int maxProduct(vector<int>& nums) {
+	        int len= nums.size();
+	        if(len==0) return 0;
+	        if(len==1) return nums[0];
+	        
+	        int cmax=nums[0], cmin=nums[0], pmax = nums[0], pmin=nums[0];
+	        int rst = nums[0];
+	        for(int i=1;i<len;i++)
+	        {
+	            cmax = max(max(pmax*nums[i],pmin*nums[i]),nums[i]);
+	            cmin = min(min(pmax*nums[i],pmin*nums[i]),nums[i]);
+	            rst = max(rst,cmax);
+	            pmax = cmax;
+	            pmin = cmin;
+	        }
+	        return rst;
+	    }
+	};
 }
 
 /****************************************************************************************************
                                              Note
 From the solution...
 It realy good idea. continue track the max and min, consider the 0 case. 
+
+It is DP problem. The current is from the previous solution
 ****************************************************************************************************/

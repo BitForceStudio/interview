@@ -23,37 +23,61 @@ namespace std
 	public:
 	    int largestRectangleArea(vector<int>& heights) {
 	        int len=heights.size();
-	        if (len==0) return 0;
-	        if (len==1) return heights[0];
+	        if(len==0) return 0;
+	        if(len==1) return heights[0];
 	        
-	        return helper(0,len-1,heights);
+	        int rst=helper(heights, 0,len-1);
+	        return rst;
 	    }
 	    
-	    int helper(int bg, int ed, vector<int>& heights)
+	    int helper(vector<int>& h, int s, int t)
 	    {
-	        int len=ed-bg+1;
-	        if (len<=0) return 0;
-	        if (len==1) return heights[bg];
-	        if (len==2)
+	        if(s>t) 
 	        {
-	            int dmin = min(heights[bg],heights[ed])*2;
-	            return max(dmin,max(heights[bg],heights[ed]));
+	            return 0;
+	        }
+	        if(t-s==0) 
+	        {
+	            return h[s];
+	        }
+	        if(t-s==1)
+	        {
+	            return max(2*min(h[s],h[t]),max(h[s],h[t])); 
 	        }
 	        
-	        int imin=-1;
-	        int dmin=2147483647;
-	        for(int i=bg;i<=ed;i++)
-	        {
-	            if (heights[i]<dmin) 
-	            {
-	                imin=i;
-	                dmin=heights[i];
+	        int mid = (s+t)/2;
+	        int maxall = maxCombineArea(h,s,mid,t);
+	        int maxleft = helper(h,s,mid);
+	        int maxright = helper(h,mid+1,t);
+
+	        return max(maxleft,max(maxright,maxall));
+	    }
+	    
+	    int maxCombineArea(const vector<int> &height, int s, int m, int e) {
+	        // Expand from the middle to find the max area containing height[m] and height[m+1]
+	        int i = m, j = m+1;
+	        int area = 0, h = min(height[i], height[j]);
+	        while(i >= s && j <= e) {
+	            h = min(h, min(height[i], height[j]));
+	            area = max(area, (j-i+1) * h);
+	            if (i == s) {
+	                ++j;
+	            }
+	            else if (j == e) {
+	                --i;
+	            }
+	            else {
+	                // if both sides have not reached the boundary,
+	                // compare the outer bars and expand towards the bigger side
+	                if (height[i-1] > height[j+1]) {
+	                    --i;
+	                }
+	                else {
+	                    ++j;
+	                }
 	            }
 	        }
-	        int maxmin=dmin*len;
-	        int maxright = helper(imin+1,ed,heights);
-	        int maxleft = helper(bg,imin-1,heights);
-	        return max(maxmin,max(maxright,maxleft));
+	        return area;
 	    }
 	};
 
