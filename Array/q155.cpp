@@ -18,72 +18,109 @@ minStack.top();      --> Returns 0.
 minStack.getMin();   --> Returns -2.
 ****************************************************************************************************/
 
-class MinStack {
-public:
-    /** initialize your data structure here. */
-    MinStack() {
-    }
-    
-    void push(int x) {
-        stack.push_back(x);
-        if (minstack.empty() || x<=minstack.back()) minstack.push_back(x);  // *
-    }
-    
-    void pop() {
-        if (minstack.back()==stack.back())
-            minstack.pop_back();
-        stack.pop_back();
-    }
-    
-    int top() {
-        return stack.back();
-    }
-    
-    int getMin() {
-        return minstack.back();
-    }
-private:
-    vector<int> stack;
-    vector<int> minstack;
-};
+#include "problems\problems\Header.h"
 
-
-// faster solution, using self-defined structure with current min value. 
-class MinStack {
-public:
-    /** initialize your data structure here. */
-    struct minStruct{
-        int val;
-        int min;
+namespace std
+    {
+    class MinStack {
+    public:
+        /** initialize your data structure here. */
+        MinStack() {
+        }
+        
+        void push(int x) {
+            stack.push_back(x);
+            if (minstack.empty() || x<=minstack.back()) minstack.push_back(x);  // *
+        }
+        
+        void pop() {
+            if (minstack.back()==stack.back())
+                minstack.pop_back();
+            stack.pop_back();
+        }
+        
+        int top() {
+            return stack.back();
+        }
+        
+        int getMin() {
+            return minstack.back();
+        }
+    private:
+        vector<int> stack;
+        vector<int> minstack;
     };
-    MinStack() {
-    }
-    
-    void push(int x) {
-        minStruct curr;
-        curr.val=x;
-        if (stack.empty() || currMin>x) {curr.min=x; currMin=x;}
-        else curr.min=currMin;
-        stack.push_back(curr);
-    }
-    
-    void pop() {
-        stack.pop_back();
-        currMin=stack.back().min;
-    }
-    
-    int top() {
-        return stack.back().val;
-    }
-    
-    int getMin() {
-        return currMin;
-    }
-private:
-    vector<minStruct> stack;
-    int currMin;
-};
 
+
+    // faster solution, using self-defined structure with current min value. 
+    class MinStack2 {
+    public:
+        /** initialize your data structure here. */
+        struct minStruct{
+            int val;
+            int min;
+        };
+        MinStack() {
+        }
+        
+        void push(int x) {
+            minStruct curr;
+            curr.val=x;
+            if (stack.empty() || currMin>x) {curr.min=x; currMin=x;}
+            else curr.min=currMin;
+            stack.push_back(curr);
+        }
+        
+        void pop() {
+            stack.pop_back();
+            currMin=stack.back().min;
+        }
+        
+        int top() {
+            return stack.back().val;
+        }
+        
+        int getMin() {
+            return currMin;
+        }
+    private:
+        vector<minStruct> stack;
+        int currMin;
+    };
+
+    class MinStack3 {
+    private: 
+        stack<int> st;
+        stack<int> minst;
+    public:
+        /** initialize your data structure here. */
+        MinStack() {
+            
+        }
+        
+        void push(int x) {
+            st.push(x);
+            if(minst.empty() || x<minst.top()) minst.push(x);
+            else minst.push(minst.top());
+        }
+        
+        void pop() {
+            if(st.empty()) return;
+            st.pop();
+            minst.pop();
+        }
+        
+        int top() {
+            if(st.empty()) return 0;
+            return st.top();
+        }
+        
+        int getMin() {
+            if(minst.empty()) return 0;
+            return minst.top();
+        }
+    };
+}
 /**
  * Your MinStack object will be instantiated and called as such:
  * MinStack obj = new MinStack();
