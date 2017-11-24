@@ -34,6 +34,26 @@ namespace std
 	    }
 	};
 
+
+	class Solution2 {
+	public:
+	    int countPrimes(int n) {
+	        if(n<=3) return (n-2)>0?(n-2):0;
+	        int rst=1;
+	        vector<bool> passed(n,false);
+	        int tr = sqrt(n);
+	        for(int i=3;i<=tr;i+=2)
+	        {
+	            if(passed[i]) continue;
+	            for(int j=i*i;j<n;j+=i)
+	            {
+	                passed[j]=true;
+	            }
+	        }
+	        for(int i=3;i<n;i+=2) if(!passed[i]) rst++;
+	        return rst;
+	    }
+	};
 }
 
 /****************************************************************************************************

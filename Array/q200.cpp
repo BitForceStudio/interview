@@ -61,6 +61,39 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    int numIslands(vector<vector<char>>& grid) {
+	        int lenr = grid.size();
+	        if(lenr==0) return 0;
+	        int lenc = grid[0].size();
+	        if(lenc==0) return 0;
+	        int rst=0;
+	        for(int i=0;i<lenr;i++)
+	        {
+	            for(int j=0;j<lenc;j++)
+	            {
+	                if(grid[i][j]=='1')
+	                {
+	                    rst++;
+	                    markisland(grid,i,j,lenr,lenc);
+	                }
+	            }
+	        }
+	        return rst;
+	    }
+	    
+	    void markisland(vector<vector<char> >& grid, int i, int j, int lenr, int lenc)
+	    {
+	        if(i<0 || i>=lenr || j<0 || j>=lenc || grid[i][j]=='0' || grid[i][j]=='*') return;
+	        grid[i][j]='*';
+	        markisland(grid,i-1,j,lenr,lenc);
+	        markisland(grid,i,j-1,lenr,lenc);
+	        markisland(grid,i+1,j,lenr,lenc);
+	        markisland(grid,i,j+1,lenr,lenc);
+    }
+	};
+
 }
 
 /****************************************************************************************************
