@@ -59,6 +59,40 @@ namespace std
 	    }
 	};
 
+	class Solution {
+	public:
+	    bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
+	        if(prerequisites.size()==0) return true;
+	        unordered_map<int,unordered_set<int> > dep;
+	        vector<int> wait;
+	        for(int i=0;i<prerequisites.size();i++)
+	        {
+	            dep[prerequisites[i].first].insert(prerequisites[i].second);
+	            wait.push_back(prerequisites[i].first);
+	        }
+	        unordered_set<int> visit;
+	        unordered_set<int> finish;
+	        for(int i=0;i<wait.size();i++)
+	            if(!dfs(dep,visit,finish,wait[i])) return false;
+	        return true;
+	    }
+	    
+	    bool dfs(unordered_map<int,unordered_set<int> >& d, unordered_set<int>& v,unordered_set<int>& f, int curr)
+	    {
+	        if(d.find(curr)==d.end() || f.find(curr)!=f.end()) return true;
+	        if(v.find(curr)!=v.end()) return false;
+	        v.insert(curr);
+	        for(unordered_set<int>::iterator it=d[curr].begin();it!=d[curr].end();++it)
+	        {
+	            if(!dfs(d,v,f,(*it))) return false;
+	        }
+	        v.erase(curr);
+	        f.insert(curr);
+
+	        return true;
+	    }
+	};
+
 }
 
 /****************************************************************************************************

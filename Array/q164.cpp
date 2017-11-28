@@ -33,9 +33,51 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    int maximumGap(vector<int>& nums) {
+	        int len = nums.size();
+	        if(len<2) return 0;
+	        
+	        int nmax=0,nmin=INT_MAX;
+	        for(int i=0;i<len;i++)
+	        {
+	            nmax = max(nmax,nums[i]);
+	        }
+	        
+	        int nb = len;
+	        int div = (nmax+1)/nb + 1;
+	        vector<set<int> > b(nb);
+	        for(int i=0;i<len;i++)
+	        {
+	            b[nums[i]/div].insert(nums[i]);
+	        }
+	        int rst = 0;
+	        int pre = -1;
+	        for(int i=0;i<nb;i++)
+	        {
+	            if(b[i].size()>0)
+	            {
+	                for(set<int>::iterator it=b[i].begin();it!=b[i].end();++it)
+	                {
+	                    if(pre<0) pre = (*it);
+	                    else
+	                    {
+	                        rst=max(rst,(*it)-pre);
+	                        pre=(*it);
+	                    }
+	                }
+	            }
+	        }
+	        return rst;
+	    }
+	};
+
 }
 
 /****************************************************************************************************
                                              Note
 The O(n) answer is buscket sort. I don't know how to do this...
+
+Solution 2, buscket sort. 
 ****************************************************************************************************/

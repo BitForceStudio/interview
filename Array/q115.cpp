@@ -43,6 +43,37 @@ namespace std
 	    }
 	};
 
+	class TLE_Solution {
+	public:
+	    int numDistinct(string s, string t) {
+	        if(t.size()>s.size()) return 0;
+	        int rst=0;
+	        
+	        for(int i=0;i<s.size();i++)
+	        {
+	            if(s[i]==t[0]) helper(s,t,i+1,1,rst);
+	        }
+	        return rst;
+	    }
+	    
+	    void helper(string& s,string& t, int ss, int st, int& rst)
+	    {
+	        if(st==t.size())
+	        {
+	            rst++;
+	            return;
+	        }
+	        if(ss>=s.size()) return;   
+	        for(int i=ss;i<s.size();i++)
+	        {
+	            if(s[i]==t[st])
+	            {
+	                helper(s,t,i+1,st+1,rst);
+	            }
+	        }
+	    }
+	};
+
 }
 
 /****************************************************************************************************
