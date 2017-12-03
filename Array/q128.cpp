@@ -43,6 +43,42 @@ namespace std
 	    }
 	};
 
+	class Solution2 {
+	public:
+	    int longestConsecutive(vector<int>& nums) {
+	        int len = nums.size();
+	        if(len<=1) return len;
+	        
+	        unordered_set<int> s;
+	        for(int i=0;i<len;i++) s.insert(nums[i]);
+	        int rst = 1;
+	        while(!s.empty())
+	        {
+	            int tmp = 1;
+	            unordered_set<int>::iterator it = s.begin();
+	            // backward
+	            int i=1;
+	            while(s.find((*it)-i)!=s.end())
+	            {
+	                tmp++;
+	                s.erase((*it)-i);
+	                i++;
+	            }
+	            // forward
+	            i=1;
+	            while(s.find((*it)+i)!=s.end())
+	            {
+	                tmp++;
+	                s.erase((*it)+i);
+	                i++;
+	            }
+	            s.erase((*it));
+	            rst=max(rst,tmp);
+	        }
+	        return rst;
+	    }
+	};
+
 }
 
 /****************************************************************************************************
