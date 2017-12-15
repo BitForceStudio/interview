@@ -59,94 +59,39 @@ namespace std
 	            }
 	        }
 	        return dp[strLen];
-	        /*
-	        // breadth first search. each node is sub string of remain string with length from minLen to maxLen : time limit
-	        
-	        queue<Node> qsf;
-	        Node curr; curr.str = ""; curr.next = 0; 
-	        qsf.push(curr);
-	        queue<Node> qsb;
-	        curr.str = ""; curr.next = strLen;
-	        qsb.push(curr);
-	        
-	        bool qfound = false;
-	        while(!qsf.empty() && !qsb.empty())
+	    }
+	};
+
+	class DFSSolution {
+	public:
+	    bool wordBreak(string s, vector<string>& wordDict) {
+	        // dfs
+	        int len=s.size();
+	        unordered_set<int> lens;
+	        unordered_set<string> dict;
+	        for(int i=0;i<wordDict.size();i++)
 	        {
-	            // check begin->end way
-	            Node pre = qsf.front();
-	            qsf.pop();
-	            if(pre.next<=strLen-minLen)
-	            {
-	                int currIndex = pre.next;
-	                for(int i=maxLen;i>=minLen;i--)
-	                {
-	                    if (currIndex+i<=strLen)
-	                    {
-	                        string sstr = s.substr(currIndex,i);
-	                        if(find(wordDict.begin(),wordDict.end(),sstr)!=wordDict.end())
-	                        {
-	                            if (currIndex+i==strLen) return true;
-	                            curr.str = sstr;
-	                            curr.next = currIndex+i;
-	                            qsf.push(curr);
-	                        }
-	                    }
-	                }
-	            }
-	            // check end->begin way
-	            pre = qsb.front();
-	            qsb.pop();
-	            if(pre.next>=minLen)
-	            {
-	                int currIndex = pre.next;
-	                for(int i=maxLen;i>=minLen;i--)
-	                {
-	                    if (currIndex-i>=0)
-	                    {
-	                        string sstr = s.substr(currIndex-i,i);
-	                        if(find(wordDict.begin(),wordDict.end(),sstr)!=wordDict.end())
-	                        {
-	                            if (currIndex-i==0) return true;
-	                            curr.str = sstr;
-	                            curr.next = currIndex-i;
-	                            qsb.push(curr);
-	                        }
-	                    }
-	                }
-	            }
+	            lens.insert(wordDict[i].size());
+	            dict.insert(wordDict[i]);
 	        }
-	        
-	        return qfound;
-	        */
-	        
-	        /*
-	        // depth first search:  not working. need two way BFS
-	        bool qfound=dfs(s,wordDict,0,minLen,maxLen,strLen);
-	        
-	        return qfound;
-	        */
+	        vector<bool> qc(len+1,false);
+	        return dfs(dict,lens,qc,s,0);
 	    }
 	    
-	    /*
-	    bool dfs(string s, vector<string> wd, int st, int mi, int mx, int len)
+	    bool dfs(unordered_set<string> &dict, unordered_set<int> &lens, vector<bool>& qc, string& s, int begin)
 	    {
-	        bool qfound = false;
-	        for(int i=mx;i>=mi;i--)
+	        for(auto it=lens.begin();it!=lens.end();++it)
 	        {
-	            if (st+i<=len)
+	            if(begin+*it>s.size() || qc[begin+*it]) continue;
+	            if(dict.find(s.substr(begin,*it))!=dict.end())
 	            {
-	                string sstr = s.substr(st,i);
-	                if(find(wd.begin(),wd.end(),sstr)!=wd.end())
-	                {
-	                    if (st+i==len) return true;
-	                    qfound = dfs(s,wd,st+i,mi,mx,len);
-	                    if (qfound) return true;
-	                }
+	                if(begin+*it==s.size()) return true;
+	                qc[begin+*it]=true;
+	                if(dfs(dict,lens,qc,s,begin+*it)) return true;
 	            }
 	        }
-	        return qfound;
+	        return false;
 	    }
-	    */
 	};
 
 }
@@ -155,5 +100,6 @@ namespace std
                                              Note
 1: My BFS and DFS didn't work, why? too many trys. if index i was visited, then it not necessary to do 
 that again. think about it and may optimize it.
+1.1: DFS works
 2: DP, it was the right way to do so...
 ****************************************************************************************************/
